@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Repo Context Badge",
+  "version": "0.1.0",
+  "description": "Prototype GitHub repository/issue context badge for ChatGPT conversations.",
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
