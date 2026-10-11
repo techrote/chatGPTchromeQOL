@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Accidental Send Guard",
+  "version": "0.1.0",
+  "description": "Prototype warning when a prompt appears structurally unfinished.",
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_start"
+  }]
+}

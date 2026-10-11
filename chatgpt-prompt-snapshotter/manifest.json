@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Prompt Snapshotter",
+  "version": "0.1.0",
+  "description": "Prototype local snapshots and rolling draft backup for long ChatGPT prompts.",
+  "permissions": ["storage"],
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
