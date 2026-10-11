@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Conversation Model History",
+  "version": "0.1.0",
+  "description": "Prototype per-conversation timeline of model/effort choices.",
+  "permissions": ["storage"],
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}

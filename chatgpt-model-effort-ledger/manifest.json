@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Model / Effort Ledger",
+  "version": "0.1.0",
+  "description": "Prototype local ledger of ChatGPT sends, model controls, effort labels and chat URLs.",
+  "permissions": ["storage"],
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
