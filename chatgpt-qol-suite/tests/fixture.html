@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ChatGPT 5.6 Send Guard test fixture</title>
+<style>
+ html,body {margin:0;width:100%;height:100%;font:14px system-ui,sans-serif;background:#151515;color:#fafafa;}
+ aside {position:fixed;top:0;left:0;width:220px;height:100%;background:#222;}
+ main {margin-left:240px;padding:50px;}
+ button,textarea{font:inherit;}
+ button {cursor:pointer;}
+ .composer {position:fixed;bottom:12px;left:260px;right:24px;height:98px;
+   display:flex;align-items:end;gap:12px;border-radius:18px;background:#303030;padding:12px;box-sizing:border-box;}
+ .composer textarea, .composer [contenteditable] {flex:1;height:48px;min-height:44px;color:white;background:#222;border:1px solid #555;}
+ .composer button {height:38px;}
+ .writing-block {background:#242424;padding:20px;border-radius:12px;width:480px;}
+ .writing-block [contenteditable] {min-height:40px;border:1px solid #666;}
+</style>
+</head>
+<body>
+<aside>
+  <button id="nav" aria-label="Send to another conversation">Switch conversation</button>
+  <button id="nav2" aria-label="Open recent conversation">Another conversation</button>
+</aside>
+<main>
+  <div class="writing-block">
+    <div id="writing-editor" contenteditable="true">This writing block mentions 5.6.</div>
+    <button id="copy" data-testid="send-copy-code" aria-label="Copy code block">Copy</button>
+  </div>
+  <p><button id="other-send" aria-label="Send to email">Unrelated action containing 'Send'</button></p>
+  <div id="record">Nothing yet</div>
+</main>
+<form id="chat-form" class="composer">
+  <div id="prompt-textarea" contenteditable="true" role="textbox"></div>
+  <button id="model" type="button" aria-label="Select model">Extra High</button>
+  <button id="send" data-testid="send-button" aria-label="Send message" type="submit">➤</button>
+</form>
+<script>
+  window.counters = { copy:0, nav:0, nav2:0, other:0, pointerSend:0, clickSend:0, submit:0, enter:0 };
+  document.getElementById('copy').addEventListener('click', ()=>counters.copy++);
+  document.getElementById('nav').addEventListener('click', ()=>counters.nav++);
+  document.getElementById('nav2').addEventListener('click', ()=>counters.nav2++);
+  document.getElementById('other-send').addEventListener('click', ()=>counters.other++);
+  document.getElementById('send').addEventListener('pointerdown', ()=>counters.pointerSend++);
+  document.getElementById('send').addEventListener('click', ()=>counters.clickSend++);
+  document.getElementById('chat-form').addEventListener('submit', e => {
+    e.preventDefault();
+    counters.submit++;
+  });
+  document.getElementById('prompt-textarea').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { counters.enter++; e.preventDefault(); }
+  });
+</script>
+</body>
+</html>

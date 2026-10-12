@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT QOL Suite",
+  "short_name": "ChatGPT QOL",
+  "version": "0.1.0",
+  "description": "A locally configurable suite of independent ChatGPT workflow, model, and send-safety modules.",
+  "permissions": ["storage", "notifications"],
+  "host_permissions": [],
+  "action": { "default_title": "ChatGPT QOL Suite", "default_popup": "ui/popup.html" },
+  "options_page": "ui/dashboard.html",
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+    "run_at": "document_start",
+    "js": [
+      "shared/core.js", "shared/dom.js", "shared/refs.js",
+      "modules/send-guard.js", "modules/accidental-send.js", "modules/long-prompt.js", "modules/model-cost.js",
+      "modules/snapshotter.js", "modules/pro-counter.js", "modules/effort-ledger.js", "modules/model-history.js",
+      "modules/repo-badge.js", "modules/project-index.js", "modules/ref-extractor.js", "modules/copy-for-codex.js",
+      "modules/response-watch.js", "content.js"
+    ]
+  }]
+}
