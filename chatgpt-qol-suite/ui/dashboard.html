@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ChatGPT QOL Suite — Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script src="../shared/core.js" defer></script>
+  <script src="../modules/send-guard.js" defer></script>
+  <script src="../modules/accidental-send.js" defer></script>
+  <script src="../modules/long-prompt.js" defer></script>
+  <script src="../modules/model-cost.js" defer></script>
+  <script src="../modules/snapshotter.js" defer></script>
+  <script src="../modules/pro-counter.js" defer></script>
+  <script src="../modules/effort-ledger.js" defer></script>
+  <script src="../modules/model-history.js" defer></script>
+  <script src="../modules/repo-badge.js" defer></script>
+  <script src="../modules/project-index.js" defer></script>
+  <script src="../modules/ref-extractor.js" defer></script>
+  <script src="../modules/copy-for-codex.js" defer></script>
+  <script src="../modules/response-watch.js" defer></script>
+  <script src="dashboard.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><img src="../assets/icon128.png" alt="" width="40" height="40" /><div><strong>ChatGPT QOL</strong><small>Modular Suite · v0.1</small></div></div>
+    <nav aria-label="Dashboard sections">
+      <a href="#modules" class="current">Modules</a>
+      <a href="#data">Local data</a>
+      <a href="#diagnostics">Diagnostics</a>
+    </nav>
+    <p class="side-note">All functionality executes locally in your browser. No separate dashboard server.</p>
+  </aside>
+  <main>
+    <header class="heading">
+      <div>
+        <div class="eyebrow">EXTENSION SETTINGS</div>
+        <h1>Module dashboard</h1>
+        <p class="subtitle">One extension, independent controls, shared send safety. Changes apply to open ChatGPT tabs without a reload.</p>
+      </div>
+      <div class="summary"><strong id="enabled-count">—</strong><span>of 13 enabled</span></div>
+    </header>
+    <section class="toolbar" id="modules" aria-label="Module filters">
+      <label class="search"><span class="sr-only">Find a module</span><input id="search" type="search" placeholder="Find a module…" autocomplete="off" /></label>
+      <select id="filter" aria-label="Filter modules">
+        <option value="all">All modules</option>
+        <option value="enabled">Enabled</option>
+        <option value="disabled">Disabled</option>
+      </select>
+      <button id="all-off" type="button" class="quiet">Disable all</button>
+      <span id="save-state" role="status" aria-live="polite">Loading…</span>
+    </section>
+    <div id="groups" class="groups"></div>
+    <section id="data" class="utility-card">
+      <div><h2>Local data & migration</h2><p>Export usage records, drafts, project indexes and current settings. Existing standalone extension storage cannot be read automatically by a different extension ID.</p></div>
+      <div class="action-line">
+        <button id="export-config">Export settings</button>
+        <button id="import-config">Import settings</button>
+        <input id="config-file" type="file" accept="application/json,.json" hidden />
+        <button id="export-data">Export local records</button>
+        <button id="clear-data" class="danger-outline">Clear local records…</button>
+      </div>
+      <p id="data-message" class="helper" role="status"></p>
+    </section>
+    <section id="diagnostics" class="utility-card">
+      <div><h2>Diagnostics & safeguards</h2><p>The Send Guard is the only standalone feature previously field-tested. Other migrated modules remain experimental and are off by default.</p></div>
+      <div class="diagnostics-grid">
+        <div><strong id="diag-enabled">—</strong><small>Enabled modules</small></div>
+        <div><strong>Shared</strong><small>Composer event adapter</small></div>
+        <div><strong>Local</strong><small>Data storage</small></div>
+      </div>
+      <p class="helper">One central send pipeline combines warnings into a single dialog. A one-time override does not disable future checks. Disabling a module removes its listeners, timers, badges, and controls without deleting its stored records.</p>
+    </section>
+    <footer>ChatGPT QOL Suite · <span id="version">0.1.0</span> · Not affiliated with OpenAI</footer>
+  </main>
+</body>
+</html>

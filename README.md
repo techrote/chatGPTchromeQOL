@@ -1,41 +1,42 @@
 # chatGPTchromeQOL
 
-Small, independent Chrome/Chromium extensions for the way this repository's owner uses ChatGPT: model/effort control, long technical prompts, coding-agent handoffs, GitHub project context and local usage accounting.
+Small Chrome/Chromium extensions for ChatGPT workflows, including model/effort control, technical prompts, coding-agent handoffs, GitHub project context and local usage accounting.
 
-Each folder is a separately loadable Manifest V3 extension. The prototypes deliberately avoid pretending that browser-local observations are authoritative server-side quota or billing data.
+## Recommended installation: ChatGPT QOL Suite
 
-## Current extensions
+The new [modular suite](chatgpt-qol-suite/README.md) provides **one Manifest V3 extension with 13 independently togglable features, a dashboard, one send-interception pipeline, live module lifecycle management, serialized cross-tab writes, and browser regression tests**.
 
-| Folder | Purpose | State |
+**Install:** Open `chrome://extensions/`, enable Developer mode, choose **Load unpacked**, and select `chatgpt-qol-suite`. The popup provides a quick Send Guard toggle; the full options page manages all modules and local records.
+
+The previously field-tested GPT-5.6 Send Guard is the **only default-enabled module**. The other twelve migrated prototypes are opt-in and still require live acceptance. Disable corresponding standalone extensions during suite testing to avoid duplicate interception. See the [migration and rollback procedure](chatgpt-qol-suite/README.md#migration-and-rollback).
+
+## Retained standalone extensions
+
+Legacy prototypes are intentionally preserved as independent, separately loadable Manifest V3 extensions for rollback and comparison. Their DOM selectors and UI may be less reliable than the consolidated suite. The modules in the suite have been reimplemented against shared infrastructure, not concatenated.
+
+| Folder | Purpose | Historical state |
 |---|---|---|
-| `chatgpt-56-send-guard` | Blocks sends unless `5.6` is visibly present; one-shot override | **Tested / working v0.2** |
-| `chatgpt-pro-message-counter` | Local Pro-send counter with today/7-day figures | Prototype |
-| `chatgpt-model-effort-ledger` | Timestamped local model/effort/send ledger + JSON export | Prototype |
-| `chatgpt-model-cost-guard` | Warns on short prompts using visibly heavy settings | Prototype |
-| `chatgpt-conversation-model-history` | Per-chat timeline of visible model/effort settings | Prototype |
-| `chatgpt-prompt-snapshotter` | Rolling long-prompt draft backup + send-attempt snapshots | Prototype |
-| `chatgpt-repo-context-badge` | Detects GitHub repo/issue/PR context in the current thread | Prototype |
-| `chatgpt-long-prompt-warning` | Live character/token estimate + large-prompt warning | Prototype |
-| `chatgpt-accidental-send-guard` | Warns on structurally unfinished-looking prompts | Prototype |
-| `chatgpt-chat-project-index` | Local chat -> repo/task-ID index + JSON export | Prototype |
-| `chatgpt-response-completion-watch` | Desktop notification when background response generation finishes | Prototype |
-| `chatgpt-branch-issue-extractor` | Extracts task IDs, issue refs, branches and commit SHAs | Prototype |
-| `chatgpt-copy-for-codex` | Copies selected text or latest assistant response for agent handoff | Prototype |
+| `chatgpt-56-send-guard` | Blocks sends unless `5.6` visibly selected; one-shot override | Field-tested standalone |
+| `chatgpt-pro-message-counter` | Local observed Pro-send counter | Prototype |
+| `chatgpt-model-effort-ledger` | Timestamped model/effort ledger + JSON export | Prototype |
+| `chatgpt-model-cost-guard` | Warns on short prompts with heavy visible settings | Prototype |
+| `chatgpt-conversation-model-history` | Per-chat model/effort timeline | Prototype |
+| `chatgpt-prompt-snapshotter` | Rolling draft backup + send-attempt snapshots | Prototype |
+| `chatgpt-repo-context-badge` | Detects repo/issue/PR context in current thread | Prototype |
+| `chatgpt-long-prompt-warning` | Character/token estimate and prompt-size guard | Prototype |
+| `chatgpt-accidental-send-guard` | Detects unfinished-looking prompts | Prototype |
+| `chatgpt-chat-project-index` | Local chat → repo/task-ID index + export | Prototype |
+| `chatgpt-response-completion-watch` | Notification after observed response completion | Prototype |
+| `chatgpt-branch-issue-extractor` | Extracts task IDs, issues, branches, commit hashes | Prototype |
+| `chatgpt-copy-for-codex` | Copies selection or latest assistant response | Prototype |
 
-## Install a prototype
+## Qualification, privacy, and limitations
 
-1. Open `chrome://extensions/`.
-2. Enable **Developer mode**.
-3. Choose **Load unpacked**.
-4. Select the individual extension folder.
-5. Reload the ChatGPT tab.
+The suite has automated Chromium UI regression coverage and modular configuration tests. It is not yet equivalent to qualification against live ChatGPT across all thirteen features. ChatGPT UI changes may require adapter updates.
 
-## Prototype caveats
+Records reside in this browser's extension-local storage. Observed model/effort labels and message counts are not OpenAI account quota/billing data. Historical data in old extensions cannot automatically be accessed by the suite due to Chrome's extension storage isolation.
 
-These are intentionally small experiments built against the current ChatGPT web UI. DOM selectors and product labels can change.
-
-Several prototypes add fixed diagnostic badges. Loading every prototype at once is useful for integration testing, but visually noisy. They use different vertical offsets so that the badges remain individually inspectable.
-
-The accounting extensions store data only in `chrome.storage.local`. They therefore count only activity observed by that installed browser profile and should not be interpreted as authoritative OpenAI account quota.
-
-The next useful hardening pass would consolidate shared ChatGPT DOM detection into a common tested pattern, add options pages, replace browser `confirm()` dialogs with consistent in-page modals, and build a combined dashboard extension once the individual experiments reveal which signals are reliable.
+```bash
+python chatgpt-qol-suite/tests/test_manifest.py
+python chatgpt-qol-suite/tests/test_suite.py
+```
